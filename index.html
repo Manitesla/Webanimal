@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html><meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+.filterDiv {
+  display: none;  float:left;
+    width: 100%;
+    height: 80px;
+    padding: 15px;
+    text-align:left;
+    margin:20px;
+    border-radius: 15px;
+    background-color: white;
+    box-shadow: 5px 5px 2px grey;
+}
+
+.show {
+  display: block;
+}
+
+.container {
+  margin-top: 20px;
+  overflow: hidden;
+}
+
+
+.btn {
+  display: inline-block;
+  width:30%;
+  height: 20px;
+  text-align: center;
+  border: gray;
+  background-color:white;
+  color: #000000;
+  cursor: pointer;
+  font-weight: bold;
+  border-radius:2px;
+box-shadow: 2px 2px 1px grey;
+margin:10px
+}
+
+.btn:hover {
+  background-color: #ddd;
+}
+
+.btn.active {
+  background-color: #666;
+  color: white;}
+  form.example input[type=text] {
+    padding: 10px;
+    font-size: 15px;
+    border: 1px solid grey;
+    width: 100%;
+
+    background: #f1f1f1;
+  }
+
+
+  form.example::after {
+    content: "";
+    clear: both;
+    display: table;
+  }
+  .animals{
+     display: list-item;
+    }
+</style>
+<body>
+
+    <h2>Mypets </h2>
+
+<form class="example" action="action_page.php">
+  <input type="text"id="myInput" onkeyup="search_animal()" placeholder="Search pets" name="search">
+</form>
+
+<div id="myBtnContainer">
+  <button class="btn active" onclick="filterSelection('all')">Filter</button>
+  <button class="btn" onclick="filterSelection('lessthan1month')">Less than 1 month</button>
+  <button class="btn" onclick="filterSelection('morethan1month')">more than 1 month</button>
+
+</div>
+
+<div  class="container"><ol id='list'>
+<div class="filterDiv morethan1month ">Dog <br> Age:3 month</div>
+<div class="filterDiv lessthan1month ">Dog <br> Age:25</div>
+  <div class="filterDiv morethan1month ">Horse <br> Age:3 month</div>
+  <div class="filterDiv lessthan1month ">Horse <br> Age:19</div>
+  <div class="filterDiv morethan1month ">Cat <br> Age:3 months</div>
+  <div class="filterDiv lessthan1month ">Cat <br> Age:25</div>
+  <div class="filterDiv lessthan1month ">Cat <br> Age:29</div>
+  <div class="filterDiv morethan1month ">Horse <br> Age:3 month</div>  </ol>
+</div>
+
+<script>// this function will help to show only the elements choose on basis of age
+filterSelection("all")
+function filterSelection(c) {
+  var x, i;
+  x = document.getElementsByClassName("filterDiv");
+  if (c == "all") c = "";
+  for (i = 0; i < x.length; i++) {
+    RemoveClass(x[i], "show");
+    if (x[i].className.indexOf(c) > -1) AddClass(x[i], "show");
+  }
+}
+//shows the class which should be displayed
+function AddClass(element, name) {
+  var i, arr1, arr2;
+  arr1 = element.className.split(" ");
+  arr2 = name.split(" ");
+  for (i = 0; i < arr2.length; i++) {
+    if (arr1.indexOf(arr2[i]) == -1) {element.className += " " + arr2[i];}
+  }
+}
+//removes the class which should not be displayed
+function RemoveClass(element, name) {
+  var i, arr1, arr2;
+  arr1 = element.className.split(" ");
+  arr2 = name.split(" ");
+  for (i = 0; i < arr2.length; i++) {
+    while (arr1.indexOf(arr2[i]) > -1) {
+      arr1.splice(arr1.indexOf(arr2[i]), 1);
+    }
+  }
+  element.className = arr1.join(" ");
+}
+
+// Add active class to the current button (highlight it)
+var btnContainer = document.getElementById("myBtnContainer");
+var btns = btnContainer.getElementsByClassName("btn");
+for (var i = 0; i < btns.length; i++) {
+  btns[i].addEventListener("click", function(){
+    var current = document.getElementsByClassName("active");
+    current[0].className = current[0].className.replace(" active", "");
+    this.className += " active";
+  });
+}   function search_animal() {   // it will show the list of elements on basis of search bar input
+    let input = document.getElementById('myInput').value  //store text entered in searchbar in a variable
+    input=input.toLowerCase();//converts the input text to lowercase
+    let x = document.getElementsByClassName('filterDiv');
+
+    for (i = 0; i < x.length; i++) {
+        if (!x[i].innerHTML.toLowerCase().includes(input)) {// converts input text to lowercase,
+            x[i].style.display="none";// if text is not present in the class hides them
+        }
+        else {
+            x[i].style.display="list-item"; // shows the class if the text matches with text in class
+        }
+    }
+}
+</script>
+
+</body>
+</html>
